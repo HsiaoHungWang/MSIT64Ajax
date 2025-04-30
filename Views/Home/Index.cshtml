@@ -2,15 +2,82 @@
     ViewData["Title"] = "Home Page";
 }
 
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+@section Styles {
+    <style>
+        h1 {
+            color: red
+        }
+    </style>
+}
 
 @section Scripts{
      <script>
         $('.display-4').css('backgroundColor','silver');
+
+        // setTimeout(function () {
+        //     console.log('A');
+        // }, 1000);
+        // setTimeout(function () {
+        //     console.log('B');
+        // }, 1000);
+        // setTimeout(function () {
+        //     console.log('C');
+        // }, 1000);
+
+        // setTimeout(function () {
+        //     console.log('A');
+        // }, 3000);
+        // setTimeout(function () {
+        //     console.log('B');
+        // }, 2000);
+        // setTimeout(function () {
+        //     console.log('C');
+        // }, 1000);
+        //非同步程式
+        //非同步的A程式
+        //非同步的B程式，要拿到A執行完的結果，再執行
+        //非同步的C程式，要拿到B執行完的結果，再執行
+        //  setTimeout(function () {
+        //         console.log('A');
+        //         setTimeout(function () {
+        //                   console.log('B');
+        //                   setTimeout(function () {
+        //                         console.log('C');
+        //                    }, 1000);
+        //          }, 1000);
+        // }, 1000);
+
+
+        //Promise
+        //建立 Promise 物件
+        const promise = new Promise((resolve, reject) => {
+           //非同步程式碼寫在這裡
+           //XMLHttpRequest
+           //最後產生結果
+           //或者是程式有錯
+           
+           if(false){
+              resolve('成功');
+            }else{
+              reject('失敗');
+            }
+        });
+
+        //使用 Promise
+        //取得promise物件中回傳的結果，要透過then()
+        //取得promise物件中回傳的錯誤，要透過catch()
+        //console.log(promise);
+        promise.then(data => console.log(`data:${data}`))
+               .catch(error => console.log(`error:${error}`));
+
+
+
     </script>
 }
 
