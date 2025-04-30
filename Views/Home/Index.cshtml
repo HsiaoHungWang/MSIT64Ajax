@@ -54,27 +54,53 @@
         // }, 1000);
 
 
-        //Promise
-        //建立 Promise 物件
-        const promise = new Promise((resolve, reject) => {
-           //非同步程式碼寫在這裡
-           //XMLHttpRequest
-           //最後產生結果
-           //或者是程式有錯
+        // Promise
+        // 建立 Promise 物件
+        // const promise = new Promise((resolve, reject) => {
+        //    非同步程式碼寫在這裡
+        //    XMLHttpRequest
+        //    最後產生結果
+        //    或者是程式有錯
            
-           if(false){
-              resolve('成功');
-            }else{
-              reject('失敗');
-            }
-        });
+        //    if(false){
+        //       resolve('成功');
+        //     }else{
+        //       reject('失敗');
+        //     }
+        // });
 
-        //使用 Promise
-        //取得promise物件中回傳的結果，要透過then()
-        //取得promise物件中回傳的錯誤，要透過catch()
-        //console.log(promise);
-        promise.then(data => console.log(`data:${data}`))
-               .catch(error => console.log(`error:${error}`));
+        // 使用 Promise
+        // 取得promise物件中回傳的結果，要透過then()
+        // 取得promise物件中回傳的錯誤，要透過catch()
+        // console.log(promise);
+        // promise.then(data => console.log(`data:${data}`))
+        //        .catch(error => console.log(`error:${error}`));
+
+
+        function printSomething(data){
+            const promise = new Promise((resolve,reject)=>{
+              setTimeout(()=>{
+                 resolve(data);
+              },1000)
+            })
+
+            return promise;        
+        
+        }
+
+        // console.log(printSomething('A'));
+        printSomething('A')
+            .then(data=>{
+                console.log(data);
+                return printSomething('B');
+            })
+            .then(data=>{
+                console.log(data)
+                return printSomething('C');
+            })
+            .then(data=>{
+                console.log(data);
+            });
 
 
 
