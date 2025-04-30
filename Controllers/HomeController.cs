@@ -18,6 +18,11 @@ namespace MSIT64Ajax.Controllers
             return View();
         }
 
+        public IActionResult JsonDemo()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
