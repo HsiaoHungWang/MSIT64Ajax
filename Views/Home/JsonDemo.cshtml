@@ -4,7 +4,18 @@
 }
 
 <h1>JsonDemo</h1>
-
+<table id="EmpTable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>年資</th>
+            <th>薪水</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
 
 @section Scripts{
     <script>
@@ -44,15 +55,36 @@
         // }
 
         //Array.forEach();
-        emps.forEach(employee =>{  //{"name":"Tom","workYears":3,"salary":35000}
-             // console.log(employee.name);
-             // console.log(employee.workYears);
-             // console.log(employee.salary);
-             const {name, workYears, salary} = employee;  //解構賦值
-             console.log(name);
-             console.log(workYears);
-             console.log(salary);
-        })
+        // let datas = "";
+        // emps.forEach(employee =>{  {"name":"Tom","workYears":3,"salary":35000}
+        //      console.log(employee.name);
+        //      console.log(employee.workYears);
+        //      console.log(employee.salary);
+        //      const {name, workYears, salary} = employee;  解構賦值(Destructuring assignment)
+        //      console.log(name);
+        //      console.log(workYears);
+        //      console.log(salary);
+        //      datas += `
+        //         <tr>
+        //             <td>${name}</td>
+        //             <td>${workYears}</td>
+        //             <td>${salary}</td>
+        //         </tr>
+        //         `
+        // })
+
+        const datas = emps.map(employees => {
+            const {name, workYears, salary} = employees;  // 解構賦值(Destructuring assignment)
+            return `
+                <tr>
+                    <td>${name}</td>
+                    <td>${workYears}</td>
+                    <td>${salary}</td>
+                </tr>                `
+        })    
+
+
+       document.querySelector('#EmpTable tbody').innerHTML = datas.join("");
 
         const emp = {"employees":[
                       {"name":"Tom","workYears":3,"salary":35000},
@@ -60,7 +92,7 @@
                       {"name":"Mary","workYears":7,"salary":45000}
                    ]};
 
-      
+     
 
 
 
