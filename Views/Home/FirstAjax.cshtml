@@ -4,17 +4,22 @@
 }
 
 <h1>FirstAjax</h1>
-
+<img src="~/images/cat1.jpg" />
+<img src="/images/cat1.jpg" />
 @section Scripts{
     <script>
         //console.log(fetch('/api/index'));
 
-        fetch('/api/index')
+        ///fetch('/api/index')
+
+        fetch('@Url.Content("~/api/index")')
         .then(Response=>{
             console.log(Response);
             return Response.text(); //text() => 從 response body 中取出promise<文字資料>
            
         })
-        .then(data=>console.log(data));
+        .then(data=>{
+          document.querySelector('h1').innerHTML = data;
+        });
     </script>
 }
