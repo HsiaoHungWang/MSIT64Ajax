@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+<select id="selectCity">
+    <option value="1">台北</option>
+    <option value="2">台中</option>
+    <option value="3">高雄</option>
+</select>
+
+@section Scripts{
+    <script>
+          const selCity = document.querySelector('#selectCity');
+
+         (async()=>{
+           const response = await fetch('@Url.Content("~/api/cities")');
+           if(!response.ok){
+                console.log('有錯誤發生');
+                return;
+              }
+            const cities = await response.json();
+            
+            //讀出JSON資料，顯示在option標籤中
+            // const optCities = cities.map(city=>{
+            //     return `
+            //      <option value="${city}">${city}</option>
+            //     `
+            // });
+            const optCities = cities.map(city=> `<option value="${city}">${city}</option>` );
+            selCity.innerHTML = optCities.join("");
+
+        })();
+
+
+      
+        selCity.addEventListener('change', event => {
+          console.log(event.target.value);
+          //options[0]
+          // const i = event.target.selectedIndex; 被選到 option 的索引值
+          // console.log(event.target.options[i]);
+          // console.log(event.target.options[i].value);
+          // console.log(event.target.options[i].text);
+        })
+       
+    </script>
+
+}
+
