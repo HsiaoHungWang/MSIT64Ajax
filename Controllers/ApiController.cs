@@ -15,7 +15,7 @@ namespace MSIT64Ajax.Controllers
         public IActionResult Index()
         {
             string content = "Ajax 好!!"; //"<h2>Hello World!!</h2>";
-            return Content(content,"text/plain", System.Text.Encoding.UTF8);
+            return Content(content, "text/plain", System.Text.Encoding.UTF8);
 
         }
 
@@ -29,7 +29,7 @@ namespace MSIT64Ajax.Controllers
         //根據城市讀取所有鄉鎮區
         public async Task<IActionResult> Sites(string city)
         {
-            var sites = await db.Addresses.Where(a=>a.City == city).Select(a => a.SiteId).Distinct().ToListAsync();
+            var sites = await db.Addresses.Where(a => a.City == city).Select(a => a.SiteId).Distinct().ToListAsync();
             return Json(sites);
         }
 
@@ -40,6 +40,26 @@ namespace MSIT64Ajax.Controllers
             return Json(sites);
         }
 
+        public IActionResult Avatar(string fileName = "cat1.jpg")
+        {
+            return File(@$"~/images/{fileName}", "image/jpeg");
+        }
 
+        public async Task<IActionResult> Avatar1(int id)
+        {
+            var member = await db.Members.FindAsync(id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+            byte[] img = member.FileData;
+            if(img == null)
+            {
+                return NotFound();
+            }
+            return File(img, "image/jpeg");
+
+        }
     }
 }
