@@ -23,6 +23,11 @@ namespace MSIT64Ajax.Controllers
             return View();
         }
 
+        public IActionResult Travel()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

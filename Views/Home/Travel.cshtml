@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "Travel";
+}
+
+<h1>景點資料</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+        <div class="card">
+            <img src="http://www.travel.taipei/d_upload_ttn/sceneadmin/image/A0/B0/C0/D7/E150/F719/71eb4b56-f771-43bc-856c-2fb265a5cc6e.jpg" class="card-img-top" alt="士林官邸正館">
+            <div class="card-body">
+                <h5 class="card-title">士林官邸</h5>
+                <p class="card-text">士林官邸有精緻的庭園造景設計，蟲鳴鳥叫、 景色秀麗，是休閒遊憩的絕佳場所。當年因為緊鄰著中山北路，...</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-body-secondary">開放時間：週二至周日，上午9:30~12:00(售票至11:40)、下午13:30~17:00(售票至16:40)</small>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+@section Scripts{
+    <script src="~/datas/travel.js"></script>
+    <script>
+       const datas = spots.CommonFormat.Section;
+
+          const htmlDatas = datas.map(spot => {
+              //!undefined => !false => true => !true => false
+              let imgUrl = "noImage";
+             if(!!spot.file.img[0]){
+                  imgUrl = spot.file.img[0].text;
+             }
+          //   console.log(imgUrl);
+
+             return `
+                   <div class="col">
+            <div class="card">
+                 <img src="${imgUrl}" alt="${spot.stitle}">
+                <div class="card-body">
+                     <h5 class="card-title">${spot.stitle}</h5>
+                    <p class="card-text">${spot.xbody.substring(0,100)}...</p>
+                </div>
+                <div class="card-footer">
+                     <small class="text-body-secondary">${spot.address}</small>
+                </div>
+            </div>
+        </div>
+                         `
+         })
+
+         document.querySelector('.row').innerHTML = htmlDatas.join("");
+
+
+       // const abc = datas.forEach(spot=>{
+       //       return `
+       //           <tr>
+                    
+       //           </tr>                `
+
+       //    console.log(spot);
+       //     return `
+       //      <li>aaa</li>
+       //     `;
+       // })
+       // console.log(abc);
+    </script>
+}
