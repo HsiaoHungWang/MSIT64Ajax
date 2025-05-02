@@ -34,10 +34,12 @@ namespace MSIT64Ajax.Controllers
         }
 
         //根據鄉鎮區讀取所有路名
-        //public async Task<IActionResult> Roads(string site)
-        //{
-        //    var sites = await db.Addresses.Where(a => a.City == city).Select(a => a.SiteId).Distinct().ToListAsync();
-        //    return Json(sites);
-        //}
+        public async Task<IActionResult> Roads(string site)
+        {
+            var sites = await db.Addresses.Where(a => a.SiteId == site).Select(a => a.Road).Distinct().ToListAsync();
+            return Json(sites);
+        }
+
+
     }
 }
