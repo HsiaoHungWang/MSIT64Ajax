@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <style>
+        body{
+            background-color:antiquewhite;
+        }
+    </style>
+    @RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    @RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

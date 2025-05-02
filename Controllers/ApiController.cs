@@ -1,0 +1,43 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MSIT64Ajax.Models;
+
+namespace MSIT64Ajax.Controllers
+{
+    public class ApiController : Controller
+    {
+        private readonly MyDBContext db;
+        public ApiController(MyDBContext context)
+        {
+            db = context;
+        }
+
+        public IActionResult Index()
+        {
+            string content = "Ajax 好!!"; //"<h2>Hello World!!</h2>";
+            return Content(content,"text/plain", System.Text.Encoding.UTF8);
+
+        }
+
+        //讀取所有城市
+        public async Task<IActionResult> Cities()
+        {
+            var cities = await db.Addresses.Select(a => a.City).Distinct().ToListAsync();
+            return Json(cities);
+        }
+
+        //根據城市讀取所有鄉鎮區
+        public async Task<IActionResult> Sites(string city)
+        {
+            var sites = await db.Addresses.Where(a=>a.City == city).Select(a => a.SiteId).Distinct().ToListAsync();
+            return Json(sites);
+        }
+
+        //根據鄉鎮區讀取所有路名
+        //public async Task<IActionResult> Roads(string site)
+        //{
+        //    var sites = await db.Addresses.Where(a => a.City == city).Select(a => a.SiteId).Distinct().ToListAsync();
+        //    return Json(sites);
+        //}
+    }
+}
