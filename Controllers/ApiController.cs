@@ -42,7 +42,7 @@ namespace MSIT64Ajax.Controllers
 
         public IActionResult Avatar(string fileName = "cat1.jpg")
         {
-            return File(@$"~/images/{fileName}", "image/jpeg");
+            return File($"~/images/{fileName}", "image/jpeg");
         }
 
         public async Task<IActionResult> Avatar1(int id)

@@ -88,7 +88,9 @@
         
         }
 
-        // console.log(printSomething('A'));
+      
+
+         console.log(printSomething('A'));
         // printSomething('A')
         //     .then(data=>{
         //         console.log(data);
@@ -104,18 +106,18 @@
 
         //讓非同步的程式寫起來跟同步程式一樣
     //async 要加在function 前
-    async function callPromise(){
-        //在有async的function中，使用await
+    // async function callPromise(){
+    //     在有async的function中，使用await
        
-        let data = await printSomething('A');
-        console.log(data);
-        data = await printSomething('B');
-        console.log(data);
-        data = await printSomething('C');
-        console.log(data);
-    }
+    //     let data = await printSomething('A');
+    //     console.log(data);
+    //     data = await printSomething('B');
+    //     console.log(data);
+    //     data = await printSomething('C');
+    //     console.log(data);
+    // }
 
-        callPromise();
+    //     callPromise();
 
 
 
