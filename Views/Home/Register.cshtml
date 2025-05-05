@@ -30,6 +30,7 @@
         </div>
         <button class="btn btn-primary">註冊</button>
         </form>
+        <div id="div1"></div>
     </div>
     <div class="col-3"></div>
 </div>
@@ -40,6 +41,7 @@
         const inpName = document.querySelector('#inputName');
         const divAlert = document.querySelector('.alert');
         const btnSubmit = document.querySelector('.btn');
+        const divMessage = document.querySelector('#div1');
 
         inpName.addEventListener('blur',async(event)=>{
            // alert(inpName.value);
@@ -55,14 +57,26 @@
            // console.log(url);
         })
 
-        btnSubmit.addEventListener('click', event=>{
+        btnSubmit.addEventListener('click', async(event)=>{
           event.preventDefault();
           //const url = `@Url.Content("~/api/checkaccount")?name=${inpName.value}&email=${}&age={}`
           const formData = new FormData(document.querySelector('#userForm'));
           //確定formData有取得資料
-          for(const paris of formData.entries()){
-            console.log(paris[0],paris[1]);
-          }
+          // for(const paris of formData.entries()){
+          //   console.log(paris[0],paris[1]);
+          // }
+
+          const url = "@Url.Content("~/api/register")";
+
+          const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+          });
+
+            const data = await response.text();
+            divMessage.textContent = data;
+
+
         })
     </script>
 

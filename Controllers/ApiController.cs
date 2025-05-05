@@ -76,6 +76,12 @@ namespace MSIT64Ajax.Controllers
             var member =  await db.Members.AnyAsync(m => m.Name == name);        
             return Content(member.ToString(), "text/plain");
         }
-    
+
+        public IActionResult Register(string name, string email, int age=20)
+        {
+            
+            return Content($"Hello {name}, {age} 歲了，電子郵件是 {email}", "text/plain");
+        }
+
     }
 }
