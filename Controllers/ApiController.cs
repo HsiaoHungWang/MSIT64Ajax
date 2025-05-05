@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MSIT64Ajax.Models;
+using System.Diagnostics.Eventing.Reader;
 
 namespace MSIT64Ajax.Controllers
 {
@@ -111,5 +112,14 @@ namespace MSIT64Ajax.Controllers
             return Content(filePath, "text/plain");
         }
 
+        public IActionResult Spots([FromBody]SearchDTO searchDTO)
+        {
+            string keyword = "";
+            if (!string.IsNullOrEmpty(searchDTO.keyword))
+            {
+                keyword = searchDTO.keyword;
+            }
+            return Content(keyword, "text/plain", System.Text.Encoding.UTF8 );
+        }
     }
 }

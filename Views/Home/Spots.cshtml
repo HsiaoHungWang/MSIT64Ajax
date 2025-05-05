@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "Spots";
+}
+
+<h1>Spots</h1>
+<div id="div1"></div>
+
+@section Scripts{
+    <script>
+
+        const divMessage = document.querySelector('#div1');
+
+        (async()=>{
+           const searchData = {"categoryId":0, "keyword":"北投", "page":1, "pageSize":9, "sortType":"asc", "sortBy":""};
+           const url = "@Url.Content("~/api/spots")"
+           const response = await fetch(url,{
+                     method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json'
+                       },
+                       body: JSON.stringify(searchData)
+                   }) ;
+           const data = await response.text();
+
+               divMessage.textContent = data;
+
+        })();
+        
+        // console.log(searchData);
+        // console.log(JSON.stringify(searchData));
+    
+    </script>
+}
