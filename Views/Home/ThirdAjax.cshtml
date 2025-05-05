@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "ThirdAjax";
+}
+
+<h1>ThirdAjax</h1>
+<img id="img1" />
+
+@section Scripts{
+    <script>
+        const myImg = document.querySelector('#img1');
+
+        //IIFE
+        (async()=>{
+          const response = await fetch('@Url.Content("~/api/avatar1/4")');
+          console.log(response);
+          const data = await response.blob(); //從body取出二進位資料
+          myImg.src= URL.createObjectURL(data); //將二進位資料轉成URL
+        })();
+    </script>
+}
