@@ -14,7 +14,7 @@ namespace MSIT64Ajax.Controllers
 
         public IActionResult Index()
         {
-            System.Threading.Thread.Sleep(5000); //模擬延遲
+            System.Threading.Thread.Sleep(10000); //模擬延遲
             string content = "Ajax 好!!"; //"<h2>Hello World!!</h2>";
             return Content(content, "text/plain", System.Text.Encoding.UTF8);
 
