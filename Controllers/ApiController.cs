@@ -7,9 +7,11 @@ namespace MSIT64Ajax.Controllers
     public class ApiController : Controller
     {
         private readonly MyDBContext db;
-        public ApiController(MyDBContext context)
+        private readonly IWebHostEnvironment env;
+        public ApiController(MyDBContext context, IWebHostEnvironment _env)
         {
             db = context;
+            env = _env;
         }
 
         public IActionResult Index()
@@ -77,10 +79,36 @@ namespace MSIT64Ajax.Controllers
             return Content(member.ToString(), "text/plain");
         }
 
-        public IActionResult Register(string name, string email, int age=20)
+        //public IActionResult Register(string name, string email, int age=20)
+        //public IActionResult Register(UserDTO _user)
+        public IActionResult Register(Member _user, IFormFile Avatar)
+       // public IActionResult Register()
         {
-            
-            return Content($"Hello {name}, {age} 歲了，電子郵件是 {email}", "text/plain");
+            //取得實際路徑
+            string filePath = Path.Combine(env.WebRootPath, "images", Avatar.FileName);
+            //檔案上傳
+            using(var stream = new FileStream(filePath, FileMode.Create))
+            {
+                Avatar.CopyTo(stream);
+            }
+
+            //把檔案轉成二進位 
+            using (var ms = new MemoryStream())
+            {
+                Avatar.CopyTo(ms);
+                _user.FileData = ms.ToArray();
+            }
+
+
+            _user.FileName = Avatar.FileName;
+
+
+            //新增
+            db.Members.Add(_user);
+            db.SaveChanges();
+
+            //return Content($"Hello {_user.Name}, {_user.Age} 歲了，電子郵件是 {_user.Email}", "text/plain");
+            return Content(filePath, "text/plain");
         }
 
     }

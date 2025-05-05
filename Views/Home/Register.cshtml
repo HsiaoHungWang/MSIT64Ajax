@@ -28,6 +28,13 @@
                     <input type="number" class="form-control" id="inputAge" name="Age">
             </div>
         </div>
+            <div class="mb-3 row">
+                <label for="inputAvatar" class="col-sm-2 col-form-label">Avatar</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="file" id="formFile" name="Avatar">
+                </div>
+            </div>
+          
         <button class="btn btn-primary">註冊</button>
         </form>
         <div id="div1"></div>
@@ -60,6 +67,8 @@
         btnSubmit.addEventListener('click', async(event)=>{
           event.preventDefault();
           //const url = `@Url.Content("~/api/checkaccount")?name=${inpName.value}&email=${}&age={}`
+
+          //透過FormData取得表單所有內容
           const formData = new FormData(document.querySelector('#userForm'));
           //確定formData有取得資料
           // for(const paris of formData.entries()){
@@ -67,7 +76,7 @@
           // }
 
           const url = "@Url.Content("~/api/register")";
-
+          //透過POST傳送formData到API
           const response = await fetch(url, {
             method: 'POST',
             body: formData
