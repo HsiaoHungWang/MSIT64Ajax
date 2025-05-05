@@ -4,3 +4,44 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+<hr />
+@* <form method="post" action="~/api/index1"> *@
+<form method="post">
+    <input type="text" name="userName" /><button>送出</button>
+</form>
+
+<p>@ViewBag.Message</p>
+
+<input type="text" id="inputName" /><button id="button1">送出</button>
+<p id="p1"></p>
+@section Scripts{
+    <script>
+        //querySelector('css selectors')
+        const btn = document.querySelector('#button1');
+        const inpName = document.querySelector('#inputName');
+
+        btn.addEventListener('click', async(event)=>{
+            event.preventDefault();
+            const userName = inpName.value;
+            //fetch(url)
+            //url /api/index?userName=Tom
+            //串接API
+            // fetch(`@Url.Content("~/api/index1")?userName=${userName}`)
+            // .then(response=>{
+            //     if(!response.ok){
+            //         console.log('有錯誤發生');
+            //         return;
+            //     }
+            //     return response.text();
+            // })
+            // .then(data=>{
+            //     console.log(data);
+            //     document.querySelector('h1').innerHTML = data;
+            // })
+            const response = await fetch(`@Url.Content("~/api/index1")?userName=${userName}`);
+            const data = await response.text();
+            document.querySelector('#p1').textContent = data;
+        })
+
+    </script>
+}

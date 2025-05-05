@@ -30,11 +30,16 @@
 
         (async ()=>{
             const response = await fetch('@Url.Content("~/api/index")');
+            console.log(response)
+            response.headers.forEach((value, key)=>{
+                console.log(`${key}:${value}`)
+            })
+
             if(!response.ok){
               console.log('有錯誤發生');
               return;
             }
-            const data = await response.text();
+            const data = await response.text(); //從body取出文字資料
             document.querySelector('h1').innerHTML = data;        
         })();
 

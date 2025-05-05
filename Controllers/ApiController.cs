@@ -19,6 +19,14 @@ namespace MSIT64Ajax.Controllers
 
         }
 
+        public IActionResult Index1(string userName)
+        {
+            System.Threading.Thread.Sleep(5000); //模擬延遲
+            string content = $"Hello {userName}"; //"<h2>Hello World!!</h2>";
+            return Content(content, "text/plain", System.Text.Encoding.UTF8);
+
+        }
+
         //讀取所有城市
         public async Task<IActionResult> Cities()
         {

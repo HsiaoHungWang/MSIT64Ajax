@@ -32,12 +32,21 @@ namespace MSIT64Ajax.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
         }
 
-      public IActionResult FirstAjax()
+        [HttpPost]
+        public IActionResult Privacy(string userName)
+        {
+            System.Threading.Thread.Sleep(5000); //¼ÒÀÀ©µ¿ð
+            ViewBag.Message = $"Hello {userName}" ;
+            return View();
+        }
+
+        public IActionResult FirstAjax()
         {
             return View();
         }
