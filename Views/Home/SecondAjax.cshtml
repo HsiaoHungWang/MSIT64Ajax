@@ -5,15 +5,20 @@
 
 <h1>SecondAjax</h1>
 <button id="buttonStart" class="btn btn-primary">Ajax 開始</button>
+<img src="~/images/Loading.gif" style="display:none" id="img1" />
 <div class="alert alert-primary mt-3" id="div1"></div>
 @section Scripts{
     <script>
         const btn = document.querySelector('#buttonStart');
         const divMessage = document.querySelector('#div1');
+        const imgLoading = document.querySelector('#img1');
 
         btn.addEventListener('click', async(event)=>{
             event.preventDefault();
             try{
+                imgLoading.style.display = 'inline'; //顯示Loading圖示
+                btn.setAttribute('disabled', 'disabled'); //禁用按鈕
+
                 const url = '@Url.Content("~/api/index")'; //API網址
                 const response = await fetch(url);
                 if(!response.ok){
@@ -26,7 +31,8 @@
             }catch(error){
                 divMessage.textContent = error.message;
             }finally{
-
+                 imgLoading.style.display = 'none'; //隱藏Loading圖示
+                 btn.removeAttribute('disabled'); //啟用按鈕
             }
         })
     </script>
