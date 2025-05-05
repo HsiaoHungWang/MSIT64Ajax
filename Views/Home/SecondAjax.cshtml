@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "SecondAjax";
+}
+
+<h1>SecondAjax</h1>
+<button id="buttonStart" class="btn btn-primary">Ajax 開始</button>
+<div class="alert alert-primary mt-3" id="div1"></div>
+@section Scripts{
+    <script>
+        const btn = document.querySelector('#buttonStart');
+        const divMessage = document.querySelector('#div1');
+
+        btn.addEventListener('click', async(event)=>{
+            event.preventDefault();
+            try{
+                const url = '@Url.Content("~/api/index")'; //API網址
+                const response = await fetch(url);
+                if(!response.ok){
+                    throw new Error(`${response.status}`)
+                }
+                const data = await response.text();
+                divMessage.textContent = data;
+
+
+            }catch(error){
+                divMessage.textContent = error.message;
+            }finally{
+
+            }
+        })
+    </script>
+}

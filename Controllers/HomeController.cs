@@ -51,6 +51,11 @@ namespace MSIT64Ajax.Controllers
             return View();
         }
 
+        public IActionResult SecondAjax()
+        {
+            return View();
+        }
+
         public IActionResult Address()
         {
             return View();
