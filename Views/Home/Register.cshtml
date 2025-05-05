@@ -8,26 +8,28 @@
 <div class="row">
     <div class="col-3"></div>
     <div class="col-6">
+        <form id="userForm">
         <div class="mb-3 row">
             <label for="inputName" class="col-sm-2 col-form-label">姓名</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputName">
+                <input type="text" class="form-control" id="inputName" name="Name">
                 <div class="alert alert-warning mt-2" style="display:none">帳號已存在</div>
             </div>
         </div>
         <div class="mb-3 row">
-            <label for="inputEmail" class="col-sm-2 col-form-label">電子郵件</label>
+                <label for="inputEmail" class="col-sm-2 col-form-label">電子郵件</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail">
+                    <input type="email" class="form-control" id="inputEmail" name="Email">
             </div>
         </div>
         <div class="mb-3 row">
             <label for="inputAge" class="col-sm-2 col-form-label">年紀</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="inputAge">
+                    <input type="number" class="form-control" id="inputAge" name="Age">
             </div>
         </div>
         <button class="btn btn-primary">註冊</button>
+        </form>
     </div>
     <div class="col-3"></div>
 </div>
@@ -37,6 +39,7 @@
     <script>
         const inpName = document.querySelector('#inputName');
         const divAlert = document.querySelector('.alert');
+        const btnSubmit = document.querySelector('.btn');
 
         inpName.addEventListener('blur',async(event)=>{
            // alert(inpName.value);
@@ -50,6 +53,16 @@
                  divAlert.style.display = "none";
              }
            // console.log(url);
+        })
+
+        btnSubmit.addEventListener('click', event=>{
+          event.preventDefault();
+          //const url = `@Url.Content("~/api/checkaccount")?name=${inpName.value}&email=${}&age={}`
+          const formData = new FormData(document.querySelector('#userForm'));
+          //確定formData有取得資料
+          for(const paris of formData.entries()){
+            console.log(paris[0],paris[1]);
+          }
         })
     </script>
 
