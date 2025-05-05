@@ -70,5 +70,12 @@ namespace MSIT64Ajax.Controllers
             return File(img, "image/jpeg");
 
         }
+   
+        public async Task<IActionResult> CheckAccount(string name)
+        {
+            var member =  await db.Members.AnyAsync(m => m.Name == name);        
+            return Content(member.ToString(), "text/plain");
+        }
+    
     }
 }
