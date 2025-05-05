@@ -27,7 +27,7 @@
 
                 const url = '@Url.Content("~/api/index")'; //API網址
                 const response = await fetch(url,{signal});
-                if(!response.ok){
+                if(!response.ok){                 
                     throw new Error(`${response.status}`)
                 }
                 const data = await response.text();
@@ -35,7 +35,14 @@
 
 
             }catch(error){
-                divMessage.textContent = error.message;
+                // console.log("error", error.name);
+                // console.log("message", error.message);
+                if(error.name === 'AbortError'){
+                    divMessage.textContent = '請求已中止'; 
+                }else{
+                    divMessage.textContent = error.message;
+                }
+               
             }finally{
                  imgLoading.style.display = 'none'; //隱藏Loading圖示
                  btn.removeAttribute('disabled'); //啟用按鈕
@@ -44,8 +51,7 @@
 
         btnStop.addEventListener('click',()=>{
             if(abortController){
-                abortController.abort(); //中止fetch請求
-                divMessage.textContent = '請求已中止';
+                abortController.abort(); //中止fetch請求              
             }
         })
     </script>
