@@ -114,12 +114,48 @@ namespace MSIT64Ajax.Controllers
 
         public IActionResult Spots([FromBody]SearchDTO searchDTO)
         {
+            //根據景點分類讀取景點資料
+            var spots = searchDTO.categoryId == 0 ? db.SpotImagesSpots : db.SpotImagesSpots.Where(s => s.CategoryId == searchDTO.categoryId);
+
+
+            //關鍵字搜尋
             string keyword = "";
             if (!string.IsNullOrEmpty(searchDTO.keyword))
             {
                 keyword = searchDTO.keyword;
+                spots = spots.Where(s => s.SpotTitle.Contains(searchDTO.keyword) || s.SpotDescription.Contains(searchDTO.keyword));
+
             }
-            return Content(keyword, "text/plain", System.Text.Encoding.UTF8 );
+
+            //排序
+            switch (searchDTO.sortBy)
+            {
+                case "spotTitle":
+                    spots = searchDTO.sortType == "asc" ? spots.OrderBy(s => s.SpotTitle) :spots.OrderByDescending(s => s.SpotTitle);
+                    break;
+                case "categoryId":
+                    spots = searchDTO.sortType == "asc" ? spots.OrderBy(s => s.CategoryId) : spots.OrderByDescending(s => s.CategoryId);
+                    break;
+                default:
+                    spots = searchDTO.sortType == "asc" ? spots.OrderBy(s => s.SpotId) : spots.OrderByDescending(s => s.SpotId);
+                    break;
+            }
+
+            //分頁
+            //總共有多少筆資料
+            int TotalCount = spots.Count();
+            //設定每頁顯示多少筆資料
+            int pageSize = searchDTO?.pageSize ?? 9;
+            //目前要顯示第幾頁
+            int page = searchDTO?.page ?? 1;
+            //計算總共有幾頁
+            int TotalPages = (int)Math.Ceiling((decimal)TotalCount / pageSize);
+
+            spots = spots.Skip((int)((page - 1) * pageSize)).Take(pageSize);
+
+
+            //return Content(keyword, "text/plain", System.Text.Encoding.UTF8 );
+            return Json(spots);
         }
     }
 }

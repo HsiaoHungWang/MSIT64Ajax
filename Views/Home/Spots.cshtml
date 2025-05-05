@@ -12,7 +12,7 @@
         const divMessage = document.querySelector('#div1');
 
         (async()=>{
-           const searchData = {"categoryId":0, "keyword":"北投", "page":1, "pageSize":9, "sortType":"asc", "sortBy":""};
+           const searchData = {"categoryId":0, "keyword":"北投", "page":3, "pageSize":9, "sortType":"asc", "sortBy":""};
            const url = "@Url.Content("~/api/spots")"
            const response = await fetch(url,{
                      method: 'POST',
@@ -21,9 +21,11 @@
                        },
                        body: JSON.stringify(searchData)
                    }) ;
-           const data = await response.text();
+           const datas = await response.json();
 
-               divMessage.textContent = data;
+           console.log(datas);
+
+               //divMessage.textContent = data;
 
         })();
         
