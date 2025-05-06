@@ -153,9 +153,13 @@ namespace MSIT64Ajax.Controllers
 
             spots = spots.Skip((int)((page - 1) * pageSize)).Take(pageSize);
 
+            //回傳分頁後的資料及總共幾頁
+            SpotsPagingDTO spotsPaging = new SpotsPagingDTO();
+            spotsPaging.TotalPages = TotalPages;
+            spotsPaging.SpotsResult = spots.ToList();
 
             //return Content(keyword, "text/plain", System.Text.Encoding.UTF8 );
-            return Json(spots);
+            return Json(spotsPaging);
         }
     }
 }

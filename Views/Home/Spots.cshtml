@@ -4,6 +4,10 @@
 }
 
 <h1>Spots</h1>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+    </ul>
+</nav>
 <div id="div1"></div>
 
 @section Scripts{
@@ -24,6 +28,13 @@
            const datas = await response.json();
 
            console.log(datas);
+
+           let str = "";
+           for(let i=1,max=datas.totalPages;i<=max;i++){
+               str += `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`
+           }
+
+           document.querySelector('.pagination').innerHTML = str;
 
                //divMessage.textContent = data;
 
