@@ -7,11 +7,18 @@
 <div class="row">
     <div class="col-4"></div>
     <div class="col-4">
+        <div class="col-auto">          
+            <input type="text" class="form-control" id="inputCategory" placeholder="分類名稱">
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-primary mb-3" id="buttonAdd">新增</button>
+        </div>
         <table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>分類編號</th>
-            <th>分類名稱</th>         
+            <th>分類名稱</th>
+           
         </tr>
     </thead>
     <tbody>
@@ -25,27 +32,70 @@
 @section Scripts{
     <script>
         //call Restful api => asp.net core web api
-        //https://localhost:7201/api/Categories
+         const url = 'https://localhost:7201/api/Categories'
+        // (async()=>{
 
-        (async()=>{
+        //     const response = await fetch(url);
+        //     const datas = await response.json();
 
-            const response = await fetch('https://localhost:7201/api/Categories');
+        //     顯示在網頁上
+        //     const trDatas = datas.map(category=>{
+        //         const {categoryId, categoryName} = category;
+               
+        //         return `
+        //             <tr>
+        //             <td>${categoryId}</td>
+        //             <td>${categoryName}</td>
+                    
+        //         `
+        //     })
+
+        //     document.querySelector('.table tbody').innerHTML = trDatas.join("");
+        
+        // })();
+
+       
+        const inpCategory = document.querySelector('#inputCategory');
+        const btnAdd = document.querySelector('#buttonAdd');  
+       
+        btnAdd.addEventListener('click',async (event)=>{
+            event.preventDefault();
+            //call api 新增Category
+            const response = await fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({categoryName: inpCategory.value})
+            });
+            if(response.ok){
+                inpCategory.value = "";
+                alert('新增成功!!')
+                //新增成功
+                loadCategories();
+            }
+        })
+
+        const loadCategories = async ()=>{
+             const response = await fetch(url);
             const datas = await response.json();
 
             //顯示在網頁上
             const trDatas = datas.map(category=>{
                 const {categoryId, categoryName} = category;
+
                 return `
                     <tr>
                     <td>${categoryId}</td>
                     <td>${categoryName}</td>
-                    </tr>
+
                 `
             })
 
             document.querySelector('.table tbody').innerHTML = trDatas.join("");
-        
-        })();
+        }
+
+        loadCategories();
 
     </script>
 }
