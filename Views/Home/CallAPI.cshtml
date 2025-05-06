@@ -7,18 +7,21 @@
 <div class="row">
     <div class="col-4"></div>
     <div class="col-4">
-        <div class="col-auto">          
-            <input type="text" class="form-control" id="inputCategory" placeholder="分類名稱">
-        </div>
-        <div class="col-auto">
-            <button type="button" class="btn btn-primary mb-3" id="buttonAdd">新增</button>
+        <div class="row g-3">
+            <div class="col-auto">
+                <input type="text" class="form-control" id="inputCategory" placeholder="分類名稱">
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-primary mb-3" id="buttonAdd">新增</button>
+            </div>
         </div>
         <table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>分類編號</th>
             <th>分類名稱</th>
-           
+            <th></th>
+          
         </tr>
     </thead>
     <tbody>
@@ -56,8 +59,10 @@
 
        
         const inpCategory = document.querySelector('#inputCategory');
-        const btnAdd = document.querySelector('#buttonAdd');  
-       
+        const btnAdd = document.querySelector('#buttonAdd');
+
+
+        //新增分類
         btnAdd.addEventListener('click',async (event)=>{
             event.preventDefault();
             //call api 新增Category
@@ -76,6 +81,19 @@
             }
         })
 
+        //刪除分類
+        const del = async (id)=>{
+           const response = await fetch(`${url}/${id}`,{
+                method:'DELETE'
+           })
+           if(response.ok){
+               alert('刪除成功!!');
+               loadCategories();
+           }
+        }
+
+
+        //讀取所有分類資料
         const loadCategories = async ()=>{
              const response = await fetch(url);
             const datas = await response.json();
@@ -83,12 +101,12 @@
             //顯示在網頁上
             const trDatas = datas.map(category=>{
                 const {categoryId, categoryName} = category;
-
+ 
                 return `
                     <tr>
                     <td>${categoryId}</td>
                     <td>${categoryName}</td>
-
+                    <td><button class="btn btn-danger btn-sm" onclick="del(${categoryId})">刪除</button></td>
                 `
             })
 
