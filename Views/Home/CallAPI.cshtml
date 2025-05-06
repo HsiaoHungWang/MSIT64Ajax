@@ -12,7 +12,7 @@
                 <input type="text" class="form-control" id="inputCategory" placeholder="分類名稱">
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-primary mb-3" id="buttonAdd">新增</button>
+                <button type="button" class="btn btn-primary mb-3" id="buttonAdd"><i class="bi bi-music-note-list"></i> 新增</button>
             </div>
         </div>
         <table class="table table-bordered table-striped">
@@ -92,6 +92,31 @@
            }
         }
 
+        //修改分類
+        const edit = async (event)=>{
+            //console.log(event.target);
+            //DOM
+            // console.log(event.target.closest('tr'));
+            // console.log(event.target.closest('tr').childNodes[1].textContent);
+            // console.log(event.target.closest('tr').childNodes[3].textContent);
+            const id = event.target.closest('tr').childNodes[1].textContent;
+            const name = event.target.closest('tr').childNodes[3].textContent;
+
+            const response = await fetch(`${url}/${id}`,{
+                method:'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({categoryId:id, categoryName:name})
+            });
+
+            if(response.ok){
+                alert('修改成功!!');
+                loadCategories();
+            }
+
+        }
+
 
         //讀取所有分類資料
         const loadCategories = async ()=>{
@@ -105,8 +130,11 @@
                 return `
                     <tr>
                     <td>${categoryId}</td>
-                    <td>${categoryName}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="del(${categoryId})">刪除</button></td>
+                    <td contenteditable="true">${categoryName}</td>
+                    <td>
+                    <button class="btn btn-secondary btn-sm" onclick="edit(event)"><i class="bi bi-pen"></i> 修改</button>
+                    <button class="btn btn-danger btn-sm" onclick="del(${categoryId})"><i class="bi bi-trash3"></i> 刪除</button>
+                    </td>
                 `
             })
 
