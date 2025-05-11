@@ -6,7 +6,14 @@
 <h1>Spots</h1>
 
 <div class="row">
-    <div class="col-3"></div>
+    <div class="col-3">
+        <select class="form-select" id="selectPages">
+            <option value="6">每頁6筆資料</option>
+            <option value="9" selected>每頁9筆資料</option>
+            <option value="12">每頁12筆資料</option>
+            <option 5value="15">每頁15筆資料</option>          
+        </select>
+    </div>
     <div class="col-3">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
@@ -82,7 +89,7 @@
         }
 
         //關鍵字搜尋
-             document.querySelector('#inputSearch').addEventListener('keyup', event=>{
+         document.querySelector('#inputSearch').addEventListener('keyup', event=>{
             if(event.key === 'Enter'){
                 searchData.keyword = event.target.value;
                 searchData.page = 1; //回到第一頁
@@ -97,6 +104,14 @@
             searchData.sortBy = sort.startsWith('-') ? sort.substring(1,sort.length) : sort;
             searchData.sortType = sort.startsWith('-') ? 'desc' : 'asc';
          
+            searchData.page = 1; //回到第一頁
+            loadSports();
+        })
+
+        //每頁幾筆資料
+        document.querySelector('#selectPages').addEventListener('change', event=>{
+            const pageSize = event.target.value;
+            searchData.pageSize = pageSize;
             searchData.page = 1; //回到第一頁
             loadSports();
         })
