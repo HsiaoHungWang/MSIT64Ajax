@@ -9,8 +9,5 @@ namespace MSIT64Ajax.Models;
 public partial class Category
 {
     public int CategoryId { get; set; }
-
-    [Required(ErrorMessage = "一定要輸入")]
-    [Display(Name ="分類名稱")]
     public string CategoryName { get; set; }
 }

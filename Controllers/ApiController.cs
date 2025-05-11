@@ -161,5 +161,12 @@ namespace MSIT64Ajax.Controllers
             //return Content(keyword, "text/plain", System.Text.Encoding.UTF8 );
             return Json(spotsPaging);
         }
+
+
+        public async Task<IActionResult> Categories()
+        {
+            var _categories = await db.Categories.ToListAsync();
+            return Json(_categories);
+        }
     }
 }

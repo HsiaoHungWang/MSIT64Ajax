@@ -6,7 +6,7 @@
 <h1>Spots</h1>
 
 <div class="row">
-    <div class="col-3">
+    <div class="col-2">
         <select class="form-select" id="selectPages">
             <option value="6">每頁6筆資料</option>
             <option value="9" selected>每頁9筆資料</option>
@@ -14,13 +14,13 @@
             <option 5value="15">每頁15筆資料</option>          
         </select>
     </div>
-    <div class="col-3">
+    <div class="col-6">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
             </ul>
         </nav>
     </div>
-    <div class="col-3">
+    <div class="col-2">
         <select class="form-select" id="selectSort">
             <option value="spotId">景點編號升冪</option>
             <option value="-spotId">景點編號降冪</option>
@@ -28,9 +28,16 @@
             <option value="-spotTitle">景點名稱降冪</option>
         </select>
     </div>
-    <div class="col-3">
-        <input type="search" id="inputSearch" class="form-control" />
+    <div class="col-2">
+        <input type="search" placeholder="關鍵字搜尋" id="inputSearch" class="form-control" />
     </div>
+</div>
+<div class="d-flex justify-content-center">
+    
+        <ul id="ulCategory" class="list-group list-group-horizontal align-content-center">
+           
+        </ul>
+   
 </div>
 <div id="div1" class="row row-cols-1 row-cols-md-3 g-4">
 
@@ -40,9 +47,22 @@
     <script>
         const divSpots = document.querySelector('#div1');
         const url = '@Url.Content("~/api/spots")';
-         const searchData = {"categoryId":0, "keyword":"北投", "page":3, "pageSize":9, "sortType":"asc", "sortBy":""};
+         const searchData = {"categoryId":0, "keyword":"", "page":3, "pageSize":9, "sortType":"asc", "sortBy":""};
 
-         const loadSports = async()=>{           
+
+              //載入景點分類資料
+        (async()=>{
+           const response = await fetch('@Url.Content("~/api/categories")')
+           const datas = await response.json()
+           const liCategory = datas.map(category=>{
+                const { categoryId, categoryName} = category;
+                return`                     
+                     <li class="list-group-item" onclick="category(${categoryId})">${categoryName}</li>
+                `
+           })
+           document.querySelector('#ulCategory').innerHTML = liCategory.join("");
+        })();
+         const loadSports = async()=>{
           const response = await fetch(url,{
                 method: 'POST',
                 headers: {
@@ -74,6 +94,8 @@
             //分頁按鈕
             let str = "";
            for(let i=1,max=datas.totalPages;i<=max;i++){
+               //最多十頁
+                if(i>10) break;
                str += `<li class="page-item" onclick="paging(${i})"><a class="page-link">${i}</a></li>`
            }
 
@@ -115,6 +137,13 @@
             searchData.page = 1; //回到第一頁
             loadSports();
         })
-       
+
+   
+        //根據分類編號進行景點搜尋
+        const category = async(categoryId)=>{
+            searchData.categoryId = categoryId;
+            searchData.page = 1; //回到第一頁
+            loadSports();
+        }
     </script>
 }
