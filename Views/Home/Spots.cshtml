@@ -4,44 +4,74 @@
 }
 
 <h1>Spots</h1>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-    </ul>
-</nav>
-<div id="div1"></div>
+
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+            </ul>
+        </nav>
+    </div>
+    <div class="col-4">
+       
+    </div>
+</div>
+<div id="div1" class="row row-cols-1 row-cols-md-3 g-4">
+
+</div>
 
 @section Scripts{
     <script>
+        const divSpots = document.querySelector('#div1');
+        const url = '@Url.Content("~/api/spots")';
+         const searchData = {"categoryId":0, "keyword":"北投", "page":3, "pageSize":9, "sortType":"asc", "sortBy":""};
 
-        const divMessage = document.querySelector('#div1');
+         const loadSports = async()=>{           
+          const response = await fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(searchData)
+            })
+           const datas = await response.json()
+              const htmlDatas = datas.spotsResult.map(spot => {
+              return `
+                   <div class="col">
+                    <div class="card">
+                         <img src="${spot.spotImage}" alt="${spot.spotTitle}">
+                        <div class="card-body">
+                             <h5 class="card-title">${spot.spotTitle}</h5>
+                            <p class="card-text">${spot.spotDescription.substring(0,100)}...</p>
+                        </div>
+                        <div class="card-footer">
+                             <small class="text-body-secondary">${spot.address}</small>
+                        </div>
+                    </div>
+                </div>
+                       `
+         })
+            divSpots.innerHTML = htmlDatas.join("");
 
-        (async()=>{
-           const searchData = {"categoryId":0, "keyword":"北投", "page":3, "pageSize":9, "sortType":"asc", "sortBy":""};
-           const url = "@Url.Content("~/api/spots")"
-           const response = await fetch(url,{
-                     method: 'POST',
-                       headers: {
-                           'Content-Type': 'application/json'
-                       },
-                       body: JSON.stringify(searchData)
-                   }) ;
-           const datas = await response.json();
-
-           console.log(datas);
-
-           let str = "";
+            
+            //分頁按鈕
+            let str = "";
            for(let i=1,max=datas.totalPages;i<=max;i++){
-               str += `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`
+               str += `<li class="page-item" onclick="paging(${i})"><a class="page-link">${i}</a></li>`
            }
 
-           document.querySelector('.pagination').innerHTML = str;
+          document.querySelector('.pagination').innerHTML = str;
+        }
 
-               //divMessage.textContent = data;
+        loadSports();
 
-        })();
-        
-        // console.log(searchData);
-        // console.log(JSON.stringify(searchData));
-    
+        const paging = page =>{
+            searchData.page = page;
+            loadSports();
+        }
+
+     
+       
     </script>
 }
