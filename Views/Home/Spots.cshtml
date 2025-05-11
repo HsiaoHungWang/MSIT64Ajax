@@ -14,7 +14,12 @@
         </nav>
     </div>
     <div class="col-3">
-       
+        <select class="form-select" id="selectSort">
+            <option value="spotId">景點編號升冪</option>
+            <option value="-spotId">景點編號降冪</option>
+            <option value="spotTitle">景點名稱升冪</option>
+            <option value="-spotTitle">景點名稱降冪</option>
+        </select>
     </div>
     <div class="col-3">
         <input type="search" id="inputSearch" class="form-control" />
@@ -70,18 +75,30 @@
 
         loadSports();
 
+        //分頁
         const paging = page =>{
             searchData.page = page;
             loadSports();
         }
 
+        //關鍵字搜尋
              document.querySelector('#inputSearch').addEventListener('keyup', event=>{
             if(event.key === 'Enter'){
                 searchData.keyword = event.target.value;
                 searchData.page = 1; //回到第一頁
                 loadSports();
             }
+            
+        })
 
+        //排序
+        document.querySelector('#selectSort').addEventListener('change', event=>{
+            const sort = event.target.value;
+            searchData.sortBy = sort.startsWith('-') ? sort.substring(1,sort.length) : sort;
+            searchData.sortType = sort.startsWith('-') ? 'desc' : 'asc';
+         
+            searchData.page = 1; //回到第一頁
+            loadSports();
         })
        
     </script>
